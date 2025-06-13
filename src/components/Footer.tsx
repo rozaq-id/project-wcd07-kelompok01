@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-700 mt-8 pt-6">
           <div className="flex flex-col md:flex-row md:justify-between items-center">
             <div className="text-sm text-gray-400 mb-4 md:mb-0">
-              © Copyright 2024
+              © Copyright 2025
             </div>
             <div className="flex space-x-4 text-sm text-gray-400">
               <a href="#" className="hover:text-white">Kebijakan Privasi</a>
