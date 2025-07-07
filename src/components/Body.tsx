@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InfografisCard from "./InfografisCard";
 import Pagination from "./Pagination";
+import BeritaCard from "./Berita";
 
 function Body() {
-  const [activeTab, setActiveTab] = useState<"berita" | "infografis">(
-    "infografis"
-  );
+  const [activeTab, setActiveTab] = useState<"berita" | "infografis">("berita");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  // Reset current page when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
   const infografisSosialMedia = [
     {
@@ -105,16 +109,102 @@ function Body() {
     },
   ];
 
-  // Calculate pagination values
-  const totalItems = infografisSosialMedia.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  // Dummy data for Berita
+  const beritaList = [
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/05/webdagri-article-202505ojldqlJ5D8.jpg",
+      category: "BERITA KEMENDAGRI",
+      title:
+        "Wamendagri Bima Apresiasi Sentra Pengolahan Bawang Goreng Kabupaten Solok Yang Akan Bermitra Dengan Kopdes",
+      date: "31 Mei 2025",
+      time: "15:56",
+      views: 16,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/06/webdagri-article-2025068HyMgYbQLG.png",
+      category: "BERITA NASIONAL",
+      title:
+        "Presiden Prabowo Peringatkan Koruptor Akan Ditindak Tanpa Pandang Bulu",
+      date: "04 Juni 2025",
+      time: "14:48",
+      views: 5,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/07/webdagri-article-202507mfLsXFB01s.jpg",
+      category: "BERITA DAERAH",
+      title:
+        "70 Anggota Forum Anak Kecamatan Siap Jadi Pelopor Dan Pelapor Perlindungan Bagi Anak",
+      date: "02 Juli 2025",
+      time: "09:20",
+      views: 9,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/05/webdagri-article-202505lG8CY6aAYa.png",
+      category: "BERITA NASIONAL",
+      title:
+        "Presiden Prabowo Tegaskan Energi dan Pangan adalah Kunci Kedaulatan Bangsa",
+      date: "23 Mei 2025",
+      time: "16:54",
+      views: 37,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/05/webdagri-article-202505WzRGttQpSd.png",
+      category: "BERITA INTERNASIONAL",
+      title:
+        "Kunjungan Perdana Pasca Terpilih Kembali, PM Albanese Disambut Meriah di Istana Merdeka Jakarta",
+      date: "16 Mei 2025",
+      time: "13:53",
+      views: 16,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/05/webdagri-article-202505Eh2vYkKJI2.png",
+      category: "BERITA INTERNASIONAL",
+      title:
+        "Presiden Prabowo dan PM Albanese Sepakati Penguatan Kemitraan Strategis Komprehensif Indonesia-Australia",
+      date: "16 Mei 2025",
+      time: "13:48",
+      views: 3,
+    },
+    {
+      imageUrl:
+        "https://www.kemendagri.go.id/api/file-media-services/article/images/2025/05/webdagri-article-202505yVeRzfhiQY.png",
+      category: "BERITA INTERNASIONAL",
+      title:
+        "Indonesia-Australia Tegaskan Komitmen Kemitraan Strategis untuk Wujudkan Perdamaian dan Kemakmuran",
+      date: "16 Mei 2025",
+      time: "13:44",
+      views: 3,
+    },
+  ];
 
-  // Get current page items
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = infografisSosialMedia.slice(
-    indexOfFirstItem,
-    indexOfLastItem
+  // Calculate pagination values for infografis
+  const totalItemsInfografis = infografisSosialMedia.length;
+  const totalPagesInfografis = Math.ceil(totalItemsInfografis / itemsPerPage);
+
+  // Calculate pagination values for berita
+  const totalItemsBerita = beritaList.length;
+  const totalPagesBerita = Math.ceil(totalItemsBerita / itemsPerPage);
+
+  // Get current page items for infografis
+  const indexOfLastItemInfografis = currentPage * itemsPerPage;
+  const indexOfFirstItemInfografis = indexOfLastItemInfografis - itemsPerPage;
+  const currentItemsInfografis = infografisSosialMedia.slice(
+    indexOfFirstItemInfografis,
+    indexOfLastItemInfografis
+  );
+
+  // Get current page items for berita
+  const indexOfLastItemBerita = currentPage * itemsPerPage;
+  const indexOfFirstItemBerita = indexOfLastItemBerita - itemsPerPage;
+  const currentItemsBerita = beritaList.slice(
+    indexOfFirstItemBerita,
+    indexOfLastItemBerita
   );
 
   // Handle page change
@@ -150,15 +240,23 @@ function Body() {
         </div>{" "}
         {/* Organization Cards based on active tab */}
         <div className="mt-8">
-          {" "}
           {activeTab === "berita" && (
-            <div className="text-center py-10 text-gray-500">
-              Belum ada data
-            </div>
+            <>
+              {currentItemsBerita.map((item, idx) => (
+                <BeritaCard key={idx} {...item} />
+              ))}
+              {totalPagesBerita > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPagesBerita}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </>
           )}
           {activeTab === "infografis" && (
             <>
-              {currentItems.map((org, index) => (
+              {currentItemsInfografis.map((org, index) => (
                 <InfografisCard
                   key={index}
                   judul={org.judul}
@@ -170,10 +268,10 @@ function Body() {
                   gambarUrl={org.gambarUrl}
                 />
               ))}
-              {totalPages > 1 && (
+              {totalPagesInfografis > 1 && (
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
+                  totalPages={totalPagesInfografis}
                   onPageChange={handlePageChange}
                 />
               )}
