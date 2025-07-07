@@ -2,7 +2,7 @@
 
 ## Kelompok 1
 - Abdur Rozaq
-- Anggota
+- Adli Putraliani
 - Anggota
 
 ## Overview
