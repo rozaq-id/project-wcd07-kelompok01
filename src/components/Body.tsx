@@ -1,10 +1,11 @@
 import { useState } from "react";
 import InfografisCard from "./InfografisCard";
 import Pagination from "./Pagination";
+import Berita from "./Berita"; 
 
 function Body() {
   const [activeTab, setActiveTab] = useState<"berita" | "infografis">(
-    "infografis"
+    "berita" 
   );
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -105,11 +106,9 @@ function Body() {
     },
   ];
 
-  // Calculate pagination values
   const totalItems = infografisSosialMedia.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // Get current page items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = infografisSosialMedia.slice(
@@ -117,7 +116,6 @@ function Body() {
     indexOfLastItem
   );
 
-  // Handle page change
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -125,7 +123,6 @@ function Body() {
   return (
     <div className="w-7/12 mx-auto my-8 px-4 bg-white rounded-lg shadow-md">
       <div className="p-3">
-        {/* Navigation Tabs */}
         <div className="flex border-b border-gray-300">
           <button
             className={`pb-2 px-4 font-medium ${
@@ -148,13 +145,10 @@ function Body() {
             Infografis Sosial Media
           </button>
         </div>{" "}
-        {/* Organization Cards based on active tab */}
         <div className="mt-8">
           {" "}
           {activeTab === "berita" && (
-            <div className="text-center py-10 text-gray-500">
-              Belum ada data
-            </div>
+            <Berita /> 
           )}
           {activeTab === "infografis" && (
             <>
